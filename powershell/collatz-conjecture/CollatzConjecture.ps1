@@ -1,4 +1,16 @@
 Function Invoke-CollatzConjecture() {
+    [CmdletBinding()]Param([Int64]$Number)
+
+    if ($Number -le 0) { Throw "*error: Only positive numbers are allowed*" }
+    $Chaos, $Counter = $Number, 0
+    while ($Chaos -ne 1) {
+        $Chaos = ($Chaos % 2 -eq 0) ? ($Chaos / 2) : (1 + 3 * $Chaos)
+        $Counter++
+    }
+    Return $Counter
+
+    # moved comment-based help to bottom, to ease community solution browsing.
+
     <#
     .SYNOPSIS
     Calculate the number of steps to reach 1 using the Collatz conjecture.
@@ -12,15 +24,4 @@ Function Invoke-CollatzConjecture() {
     .EXAMPLE
     Invoke-CollatzConjecture -Number 12
     #>
-    [CmdletBinding()]
-    Param(
-        [Int64]$Number
-    )
-    if ($Number -le 0) { Throw "*error: Only positive numbers are allowed*" }
-    $Chaos, $Counter = $Number, 0
-    while ($Chaos -ne 1) {
-        $Chaos = ($Chaos % 2 -eq 0) ? ($Chaos / 2) : (1 + 3 * $Chaos)
-        $Counter++
-    }
-    Return $Counter
 }
