@@ -2,16 +2,37 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet",
+            "label": "build-active-project",
             "type": "process",
+            "command": "dotnet",
+            "options": { "cwd": "${fileDirname}"},
             "args": [
                 "build",
-                "${fileDirname}",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
+        },
+
+        {
+            "label": "test-active-project-w-debug",
+            "type": "shell",
+            "command": "pwsh",
+            "options": { "cwd": "${fileDirname}"},
+            "args": [
+                "-No-Profile",
+                "-Command",
+                "$env:VSTEST_HOST_DEBUG='1'; dotnet test --no-build"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
         },
 
     ]

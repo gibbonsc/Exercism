@@ -1,19 +1,23 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch active (console)",
+            "name": ".NET Core Launch active (active F#)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${fileDirname}/bin/Debug/net10.0/${fileDirname##*/}.dll",
-            "args": [],
+            "preLaunchTask": "build-active-project",
+            "program": "${fileDirname}/bin/Debug/net9.0/RunLengthEncoding.dll",
+            
             "cwd": "${fileDirname}",
+            "console": "integratedTerminal",
             "stopAtEntry": false,
-            "console": "internalConsole",
+            "justMyCode": true
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach",
+            "processID": "${command:pickProcess}",
             "justMyCode": false
         },
     ]
