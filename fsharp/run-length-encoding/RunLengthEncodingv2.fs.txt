@@ -1,0 +1,107 @@
+module RunLengthEncoding
+
+// decode component: parser function
+let parsedList
+    (s : string)  // string to parse
+    : string list =  // produce a list of separate runs
+
+    // get ready to parse the string recursively, one run at a time
+    let rec loop
+        (chars : char list)  // remaining characters
+        (buffer : string)  // in-progress string of digits
+        : string list =  // return runs parsed so far
+
+        match chars with
+        | [] -> []  // all done
+        | c :: rest when System.Char.IsDigit(c) ->
+            // found a digit, so prepend it to the buffer and keep looping
+            loop rest (buffer + string c)
+
+        | c :: rest ->
+            // found a non-digit character c; this c finishes the token
+            let token = buffer + string c
+            // prepend token to whatever recursively will be parsed next.
+            token :: (loop rest "")
+
+    loop (Seq.toList s) ""
+
+// decode component: run expander
+let expandToken (t : string) : string =
+    match t.Length with
+    | 0 | 1 -> t  // no counter prefix, so implicitly just one character
+    | _ ->
+        // produce the actual repeated character run
+        let runner = t.[t.Length - 1]  // character to run
+        let numeral = t.[0..t.Length - 2]  // how many times to repeat
+        let counter = int numeral  // convert numeral to number
+        String.replicate counter (string runner)
+
+let decode (input : string) : string =
+    input
+    |> parsedList
+    |> List.map expandToken
+    |> String.concat ""
+
+let encode (input :string ) : string =
+    match input.Length with
+    | 0 | 1 -> input
+    | _ ->
+        let initialChar : char = input.[0]
+        // transform the input string into a list of character pairs
+        let adjacentPairs = 
+            input.ToCharArray()
+            |> Array.pairwise
+            |> Array.toList
+
+        // get ready to recursively transform many runs of characters
+        let rec loop
+            (encodedString : string )  // runs tokenized so far
+            (atom : char)  // current character to measure
+            (pairList : (char * char) list)  // remaining specimens to examine
+            : string =  // return complete string of RLE tokens
+
+            // get ready to recursively tokenize a run of one character
+            let rec makeToken
+                (counter : int)  // how many seen so far
+                (specimen : char)  // current character to measure
+                (upcomingPairs : (char * char) list)  // remaining specimens to examine
+                // return token, next character, and remaining specimens
+                : (string * char * (char * char) list) =
+
+                // here comes the next transition pair
+                match upcomingPairs with
+                | [] ->
+                    // no more transitions; that was the last run.
+                    match counter with
+                    | 1 ->  // signal end with '.' as next character
+                        (string specimen, '.', upcomingPairs)
+                    | _ ->
+                        (((string counter) + (string specimen)), '.', upcomingPairs)
+                | (left, right) :: morePairs when specimen = right ->
+                    // continue measuring the run
+                    makeToken (1 + counter) left morePairs
+                | (left, right) :: morePairs ->
+                    //
+                    match counter with
+                    | 1 ->
+                        ((string left), right, morePairs)
+                    | _ ->
+                        (((string counter) + (string left)), right, morePairs)
+
+            // start discriminating adjacent characters
+            match pairList with
+            | [] -> 
+                // all done -- is there a leftover singleton suffix?
+                match atom with
+                | '.' ->
+                    encodedString
+                | _ ->
+                    encodedString + (string atom)
+            | _ ->
+                // encode a run
+                let (token : string, nextAtom : char, remainingPairs) =
+                    makeToken 1 atom pairList
+                // do it all again for the next run
+                loop (encodedString + token) nextAtom remainingPairs
+
+        loop "" initialChar adjacentPairs

@@ -1,0 +1,67 @@
+module RunLengthEncoding
+
+let encode (input :string ) : string =
+    match input.Length with
+    | 0 | 1 -> input
+    | _ ->
+        let initialChar : char = input.[0]
+        // transform the input string into a list of characters
+        let charList = 
+            input.ToCharArray()
+            |> Array.toList
+
+        // get ready to recursively transform character runs
+        let rec loop
+            (chars : char list)  // characters yet to be parsed
+            (counter : int)  // run counter so far
+            : string =  // parsed encodings
+
+            match chars with
+            | char1 :: char2 :: remaining when char1 = char2 ->
+                // still running the same character
+                loop (char2 :: remaining) (counter + 1)
+            | char1 :: remaining ->
+                // transition to different character, produce encoded token
+                (if counter > 1 then (string counter) else "") + (string char1) + 
+                    (loop remaining 1)
+            | [] ->
+                // all done
+                ""
+        loop charList 1
+
+let decode (input : string) : string =
+    // start with a "backwards" list of the string's characters
+    let revChars = input |> Seq.toList |> List.rev
+
+    // get ready to repeat with each encoded "token" (number and character)
+    let rec loop (chars : char list) (accumulator : string) : string =
+        match chars with
+        | [] -> accumulator  // all done, return decoded runs
+        | letter :: rest ->
+
+            // get ready to calculate the number portion of a token.
+            let rec getCount
+                (chars : char list)
+                (counter : string)
+                : (string * char list) =
+
+                match chars with
+                | c :: rest when System.Char.IsDigit c ->
+                    // keep peeling off digits
+                    getCount
+                        rest
+                        ((string c) + counter)
+                
+                // end of token when there are no more digits
+                | _  -> ((if counter = "" then "1" else counter), chars)
+
+            // use the token's run-length numeral parser
+            let (count, remainingChars) = getCount rest ""
+
+            // convert the numeral to an int and expand the character that many times
+            let expanded = String.replicate (int count) (string letter)
+
+            // keep going as long as there are more tokens to parse
+            loop remainingChars (expanded + accumulator)
+
+    loop revChars ""
