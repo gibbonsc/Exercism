@@ -16,7 +16,7 @@ let transform (c: char) : string =
         // 4. remove digit
         ""
     elif Seq.exists (fun (elm : char) -> elm = c) (seq {'α'..'ω'}) then
-        // 5. question lowercase Greek letters between alpha and omega
+        // 5. replace lowercase Greek letters alpha through omega with '?'
         "?"
     else
         // leave other chracters alone
