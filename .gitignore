@@ -14,9 +14,27 @@ input.txt
 *.sln.docstates
 
 # User-specific build results
+**/*.o
+**/*.obj
+**/*.elf
+**/*.map
+**/*.lst
+**/*.bin
+**/*.hex
+vendor/*.o
 
+# User-specific build folders
 bin/
 obj/
+bare-metal/
+
+# Makefile artifacts
+/tests
+tests
+.exe
+# QEMU temp files / images
+*.img
+*.qcow2
 
 # Build results
 [Dd]ebug/
