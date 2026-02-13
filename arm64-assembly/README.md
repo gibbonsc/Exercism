@@ -11,7 +11,7 @@ I also installed some toolchains
 `mingw-w64-ucrt-x86_64-clang mingw-w64-ucrt-x86_64-aarch64-linux-gnu-gcc mingw-w64-ucrt-x86_64-aarch64-none-elf-gcc`
 to cross-compile and build binaries.
 
-I added convenient and appropriate `PATH` enviornment variables.
+I added convenient and appropriate `PATH` environment variables.
 
 ### aarch64-none-elf-gcc
 
