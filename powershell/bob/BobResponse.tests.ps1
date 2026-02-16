@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\BobResponse.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'BobResponse.ps1')
 }
 
 Describe "Test Get-BobResponse" {

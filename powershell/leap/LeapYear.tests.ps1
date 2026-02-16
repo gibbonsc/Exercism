@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\LeapYear.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'LeapYear.ps1')
 }
 
 Describe "LeapYear Tests" {

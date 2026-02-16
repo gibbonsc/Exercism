@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\Pangram.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Pangram.ps1')
 }
 
 Describe "PangramTests" {

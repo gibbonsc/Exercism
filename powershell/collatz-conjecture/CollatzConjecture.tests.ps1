@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./CollatzConjecture.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'CollatzConjecture.ps1')
 }
 
 Describe "Test Invoke-CollatzConjecture.ps1" {

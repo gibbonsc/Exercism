@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./FlattenArray.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'FlattenArray.ps1')
 }
 
 Describe "flatten array test cases" {

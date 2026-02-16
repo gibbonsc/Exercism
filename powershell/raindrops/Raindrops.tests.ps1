@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\Raindrops.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Raindrops.ps1')
 }
 
 Describe "Test Get-Raindrops" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Strain.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Strain.ps1')
 }
 
 Describe "strain test cases" {

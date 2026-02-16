@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./SecretHandshake.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'SecretHandshake.ps1')
 }
 
 Describe "SecretHandshake test cases" {

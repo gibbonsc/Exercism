@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\SumOfMultiples.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'SumOfMultiples.ps1')
 }
 
 Describe "Get-SumOfMultiples Tests" {

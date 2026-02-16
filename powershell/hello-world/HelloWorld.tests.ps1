@@ -1,5 +1,5 @@
 BeforeAll {
-	. ".\HelloWorld.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'HelloWorld.ps1')
 }
 
 Describe "HelloWorldTest" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Gigasecond.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Gigasecond.ps1')
 }
 
 Describe "Test Add-Gigasecond.ps1" {

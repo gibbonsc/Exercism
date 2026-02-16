@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./ResistorColorExpert.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'ResistorColorExpert.ps1')
 }
 
 Describe "ResistorColorExpert test cases" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./ResistorColorDuo.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'ResistorColorDuo.ps1')
 }
 
 Describe "Test Get-ColorCodeValue" {

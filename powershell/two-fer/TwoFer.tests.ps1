@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\TwoFer.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'TwoFer.ps1')
 }
 
 Describe "Get-TwoFer Tests" {
