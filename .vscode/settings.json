@@ -1,5 +1,6 @@
 {
   "FSharp.TestExplorer.AutoDiscoverTestsOnLoad": false,
   "FSharp.disableFailedProjectNotifications": true,
-  "FSharp.excludeProjectDirectories": []
+  "FSharp.excludeProjectDirectories": [],
+  "powershell.enableProfileLoading": false,
 }
