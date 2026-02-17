@@ -34,11 +34,7 @@ Function Get-ColorCode() {
 }
 
 Function Get-Colors() {
-    foreach ($key in $Script:ColorCode.keys)
-    {
-        if ($key -eq "gray") { continue }
-        Write-Output $key
-    }
+    Return ( $script:ColorCode.keys | Where-Object {$_ -ne "gray"} )
     <#
     .SYNOPSIS
     Return the list of all colors.

@@ -1,0 +1,23 @@
+{
+  "authors": [
+    "gyssels",
+    "meatball133"
+  ],
+  "contributors": [
+    "kchenery"
+  ],
+  "files": {
+    "solution": [
+      "NucleotideCount.ps1"
+    ],
+    "test": [
+      "NucleotideCount.tests.ps1"
+    ],
+    "example": [
+      ".meta/NucleotideCount.example.ps1"
+    ]
+  },
+  "blurb": "Given a DNA string, compute how many times each nucleotide occurs in the string.",
+  "source": "The Calculating DNA Nucleotides_problem at Rosalind",
+  "source_url": "https://rosalind.info/problems/dna/"
+}
