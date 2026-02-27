@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\RotationalCipher.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'RotationalCipher.ps1')
 }
 
 Describe "RotationalCipherTests" {

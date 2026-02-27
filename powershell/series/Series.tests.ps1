@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Series.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Series.ps1')
 }
 
 Describe "Test Get-Slices" {

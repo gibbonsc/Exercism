@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Etl.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Etl.ps1')
 }
 
 Describe "Test Invoke-Etl.ps1" {

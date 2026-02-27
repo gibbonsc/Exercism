@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./MicroBlog.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'MicroBlog.ps1')
 }
 
 Describe "MicroBlog test cases" {

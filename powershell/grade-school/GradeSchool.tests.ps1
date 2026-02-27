@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./GradeSchool.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'GradeSchool.ps1')
     # Write-Host "pwsh Version: $($PSVersionTable.PSVersion)"
     # Write-Host "Pester Module: $(Get-Module Pester | Select-Object -ExpandProperty Version)"
     [void] [Roster]::new()
