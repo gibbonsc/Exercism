@@ -1,0 +1,27 @@
+Function Get-SquareRoot() {
+    [CmdletBinding()]
+    Param(
+        [int]$Radicand
+    )
+    # Easy slow linear search algorithm (unsatisfying)
+    $Candidate = 1
+    while ($Radicand -ge $Candidate*$Candidate) {
+        $Candidate++
+    }
+    Return $Candidate-1
+
+    <#
+    .SYNOPSIS
+    Given a natural radicand, return its square root.
+    
+    .DESCRIPTION
+    The function takes a positive integer and return its square root value.
+
+    .PARAMETER Radicand
+    The number to get its square root.
+    
+    .EXAMPLE
+    Get-SquareRoot -Radicand 25
+    Retuns: 5
+    #>
+}
