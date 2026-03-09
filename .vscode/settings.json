@@ -3,4 +3,5 @@
   "FSharp.disableFailedProjectNotifications": true,
   "FSharp.excludeProjectDirectories": [],
   "powershell.enableProfileLoading": false,
+  "C_Cpp.intelliSenseEngine": "disabled"
 }
