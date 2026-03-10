@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\IsbnVerifier.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'IsbnVerifier.ps1')
 }
 
 Describe "IsbnVerifierTests" {

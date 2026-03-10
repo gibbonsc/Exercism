@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\WordCount.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'WordCount.ps1')
 }
 
 Describe "Word Count Test Cases" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./ScrabbleScore.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'ScrabbleScore.ps1')
 }
 
 Describe "ScrabbleScore test cases" {

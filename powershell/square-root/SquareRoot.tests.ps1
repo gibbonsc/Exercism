@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./SquareRoot.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'SquareRoot.ps1')
 }
 
 Describe "Square root test cases" {

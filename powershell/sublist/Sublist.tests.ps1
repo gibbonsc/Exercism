@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\Sublist.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Sublist.ps1')
 }
 
 Describe "Sublist test cases" {
