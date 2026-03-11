@@ -95,3 +95,4 @@ let ``Different characters may have the same bytes`` () =
     let candidates = ["€a"]
     findAnagrams candidates "a⬂" |> should be Empty
 
+

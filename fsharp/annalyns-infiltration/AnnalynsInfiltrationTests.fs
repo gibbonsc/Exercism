@@ -253,3 +253,4 @@ let ``Cannot free prisoner if only prisoner is asleep and pet dog is absent``() 
     let prisonerIsAwake = false
     let petDogIsPresent = false
     canFreePrisoner knightIsAwake archerIsAwake prisonerIsAwake petDogIsPresent |> should equal false
+

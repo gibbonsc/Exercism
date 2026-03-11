@@ -54,3 +54,4 @@ let ``Info reformat``() = reformat "[INFO]: Disk defragmented" |> should equal "
 let ``Reformat with leading and trailing white space``() =
     reformat "[ERROR]: \t Corrupt disk\t \t \r\n"
     |> should equal "Corrupt disk (error)"
+

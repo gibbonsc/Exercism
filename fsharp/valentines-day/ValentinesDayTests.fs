@@ -46,3 +46,4 @@ let ``Rate walk of 5 kilometers``() = rateActivity (Walk 5) |> should equal No
 
 [<Fact>]
 let ``Rate walk over 5 kilometers``() = rateActivity (Walk 8) |> should equal No
+

@@ -34,3 +34,4 @@ let ``Elapsed time in minutes for one layer`` () =
 [<Task(4)>]
 let ``Elapsed time in minutes for multiple layers`` () =
     elapsedTimeInMinutes 4 8 |> should equal 16
+

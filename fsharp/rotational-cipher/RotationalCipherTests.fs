@@ -45,3 +45,4 @@ let ``Rotate punctuation`` () =
 let ``Rotate all letters`` () =
     rotate 13 "The quick brown fox jumps over the lazy dog." |> should equal "Gur dhvpx oebja sbk whzcf bire gur ynml qbt."
 
+

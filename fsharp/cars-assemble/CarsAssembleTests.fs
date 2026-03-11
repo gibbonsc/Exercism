@@ -77,3 +77,4 @@ let ``Working items per minute for speed 9``() = workingItemsPerMinute 9 |> shou
 [<Fact>]
 [<Task(3)>]
 let ``Working items per minute for speed 10``() = workingItemsPerMinute 10 |> should equal 28
+

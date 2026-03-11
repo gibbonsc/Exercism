@@ -45,3 +45,4 @@ let ``Mixed case and punctuation`` () =
 let ``A-m and A-M are 26 different characters but not a pangram`` () =
     isPangram "abcdefghijklm ABCDEFGHIJKLM" |> should equal false
 
+

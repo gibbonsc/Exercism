@@ -56,3 +56,5 @@ let ``Decode lowercase string`` () =
 [<Fact>]
 let ``Encode followed by decode gives original string`` () =
     "zzz ZZ  zZ" |> encode |> decode |> should equal "zzz ZZ  zZ"
+
+

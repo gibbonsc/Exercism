@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-active-project",
-            "program": "${fileDirname}/bin/Debug/net9.0/RunLengthEncoding.dll",
+            "program": "${fileDirname}/bin/Debug/net10.0/RunLengthEncoding.dll",
             
             "cwd": "${fileDirname}",
             "console": "integratedTerminal",

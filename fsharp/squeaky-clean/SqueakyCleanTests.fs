@@ -49,3 +49,4 @@ let ``Clean_string_with_leading_and_trailing_spaces``() = clean "   my   id  " |
 [<Fact>]
 [<Task(6)>]
 let ``Combine_conversions``() = clean "9 cAbcĐ😀ω" |> should equal "c-abc-đ😀?"
+
