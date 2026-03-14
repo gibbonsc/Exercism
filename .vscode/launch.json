@@ -2,11 +2,22 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Active Test Project",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-active-project",
+            // This looks for an executable with the name of the folder
+            "program": "${fileDirname}/bin/Debug/net10.0/${relativeFileDirname}.exe",
+            "cwd": "${fileDirname}",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
             "name": ".NET Core Launch active (active F#)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-active-project",
-            "program": "${fileDirname}/bin/Debug/net10.0/RunLengthEncoding.dll",
+            "program": "${fileDirname}/bin/Debug/net10.0/${fileBasenameNoExtension}.dll",
             
             "cwd": "${fileDirname}",
             "console": "integratedTerminal",

@@ -5,9 +5,9 @@
             "label": "build-active-project",
             "type": "process",
             "command": "dotnet",
-            "options": { "cwd": "${fileDirname}"},
             "args": [
                 "build",
+                "${fileDirname}",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
