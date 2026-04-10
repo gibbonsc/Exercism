@@ -1,6 +1,4 @@
 {
-  
-  "FSharp.enableTestExplorer": true,
   "FSharp.TestExplorer.AutoDiscoverTestsOnLoad": true,
 
   "FSharp.disableFailedProjectNotifications": true,
