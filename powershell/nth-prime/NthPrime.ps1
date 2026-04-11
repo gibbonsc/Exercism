@@ -10,7 +10,7 @@ Function Get-NPrimes() {
     The number of primes to generate.
 
     .EXAMPLE
-    Get-NPrimes -Threshold 6
+    Get-NPrimes -Quota 6
     Returns: @(2, 3, 5, 7, 11, 13)
     #>
 
