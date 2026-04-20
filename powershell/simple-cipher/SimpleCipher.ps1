@@ -1,5 +1,5 @@
 Class SimpleCipher {
-    [string] $_key = "a"
+    [string] $_key
     [sbyte[]] $Shifts
 
     hidden [void] MakeShifts() {
@@ -27,7 +27,7 @@ Class SimpleCipher {
         for ($i = 0; $i -lt $Letters.Length; $i++) {
             $Shift = $this.Shifts[$i % ($this.Shifts.Length)]
             if ($Reverse) { $Shift *= -1 }
-            $Transformed += [string]([char](($Letters[$i] + $Shift + 26)%26 + [sbyte][char]'a'))
+            $Transformed += [string]([char](($Letters[$i] + $Shift + 26) % 26 + [sbyte][char]'a'))
         }
         return $Transformed
     }
