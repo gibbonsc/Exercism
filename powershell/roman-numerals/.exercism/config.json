@@ -1,0 +1,19 @@
+{
+  "authors": [
+    "glaxxie"
+  ],
+  "files": {
+    "solution": [
+      "RomanNumerals.ps1"
+    ],
+    "test": [
+      "RomanNumerals.tests.ps1"
+    ],
+    "example": [
+      ".meta/RomanNumerals.example.ps1"
+    ]
+  },
+  "blurb": "Convert modern Arabic numbers into Roman numerals.",
+  "source": "The Roman Numeral Kata",
+  "source_url": "https://codingdojo.org/kata/RomanNumerals/"
+}
