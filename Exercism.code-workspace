@@ -4,13 +4,17 @@
     { "path": "csharp" },
     { "path": "powershell" },
     { "path": "jq" },
-    { "path": "arm64-assembly" },
-    { "path": "." }
+    { "path": "arm64-assembly" }
   ],
   "settings": {
-    "powershell.cwd": "powershell"
-  },
-  "files.exclude": {
-    "**/.cruft": true
+    "powershell.cwd": "powershell",
+    "powershell.pester.includePaths": [
+      "${workspaceFolder:powershell}"
+    ],
+    "files.exclude": {
+      "**/.cruft": true
+    },
+    "FSharp.workspacePath": "fsharp",
+    "FSharp.enableTreeView": true
   }
 }
