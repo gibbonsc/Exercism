@@ -1,0 +1,19 @@
+{
+  "authors": [
+    "glaxxie"
+  ],
+  "files": {
+    "solution": [
+      "PythagoreanTriplet.ps1"
+    ],
+    "test": [
+      "PythagoreanTriplet.tests.ps1"
+    ],
+    "example": [
+      ".meta/PythagoreanTriplet.example.ps1"
+    ]
+  },
+  "blurb": "Given an integer N, find all Pythagorean triplets for which a + b + c = N.",
+  "source": "A variation of Problem 9 from Project Euler",
+  "source_url": "https://projecteuler.net/problem=9"
+}
