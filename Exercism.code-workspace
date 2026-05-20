@@ -7,7 +7,6 @@
     { "path": "arm64-assembly" }
   ],
   "settings": {
-    "powershell.cwd": "powershell",
     "powershell.pester.includePaths": [
       "${workspaceFolder:powershell}"
     ],
@@ -15,6 +14,6 @@
       "**/.cruft": true
     },
     "FSharp.workspacePath": "fsharp",
-    "FSharp.enableTreeView": true
+    "FSharp.enableTreeView": true,
   }
 }
