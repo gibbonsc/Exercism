@@ -1,0 +1,9 @@
+public static class ReverseString
+{
+    public static string Reverse(string input)
+    {
+        char[] inputChars = input.ToCharArray();
+        Array.Reverse(inputChars);
+        return new string(inputChars);
+    }
+}
