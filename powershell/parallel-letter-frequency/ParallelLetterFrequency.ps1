@@ -8,13 +8,21 @@ Function Get-LetterFrequencies() {
     #   independently produces a hash for one [string]$_
     $CountingThread = {
         $ThisTextHash = @{}
+        $CPCapA = [int][Char]'A'
+        $CPCapZ = [int][Char]'Z'
+        $CPLowA = [int][Char]'a'
+        $CPLowZ = [int][Char]'z'
+        $CPA0 = [int][Char]"`u{00a0}"
+        $LowerShift = $CPLowA - $CPCapA
         foreach ($Ch in [Char[]]$_) {
-            if ([Char]'A' -le $Ch -and $Ch -le [Char]'Z') {
-                $Ch = [Char]([int]$Ch + [int]([Char]'a' - [Char]'A'))
+            $CodePoint = [int]$Ch
+            if ($CPCapA -le $CodePoint -and $CodePoint -le $CPCapZ) {
+                $CodePoint += $LowerShift
+                $Ch = [Char]$CodePoint
             }
             if (
-                ([Char]'a' -le $Ch -and $Ch -le [Char]'z') -or
-                ($Ch -gt [Char]"`u{00a0}")
+                ($CPLowA -le $CodePoint -and $CodePoint -le $CPLowZ) -or
+                ($CodePoint -gt $CPA0)
             ) {
                 $Key = [String]$Ch
                 if ($ThisTextHash.ContainsKey($key)) {
