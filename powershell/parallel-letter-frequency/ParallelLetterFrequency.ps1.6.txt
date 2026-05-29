@@ -1,0 +1,72 @@
+# Works on my laptop, does it work on Exercism submission server?
+Function Get-LetterFrequencies() {
+    [CmdletBinding()]
+    Param(
+        [String[]]$Texts
+    )
+
+    if ($null -eq $Texts) {
+        return @{}
+    }
+    elseif (0 -eq $Texts.Count) {
+        return @{}
+    }
+
+    # scriptblock to invoke in parallel:
+    #   independently produces a hash for one [string]$_
+    $CountingScript = {
+        # param($ThisText)
+        if ([string]::IsNullOrEmpty($_)) {
+            return @{}
+        }
+        $ThisTextDict = [System.Collections.Generic.Dictionary[char,int]]::new()
+        $Lowered = $_.ToLowerInvariant().ToCharArray()
+        foreach ($Ch in $Lowered) {
+            if ([char]::IsLetter($Ch)) {
+                if ($ThisTextDict.ContainsKey($Ch)) {
+                        $ThisTextDict[$Ch] = 1 + $ThisTextDict[$Ch]
+                } else {
+                        $ThisTextDict[$Ch] = 1
+                }
+            }
+        }
+        return [hashtable]$ThisTextDict
+    }
+
+    <# $Timer1 = [System.Diagnostics.Stopwatch]::StartNew() #>
+
+    # collect (in parallel) hashes for each string, using the scriptblock
+    $TextCounts = $Texts | ForEach-Object -Parallel $CountingScript
+
+    <# Write-Debug $Timer1.Elapsed #>
+
+    # reduce the collection of hashes to one summative hash
+    $Result = @{}
+    foreach ($CountHash in $TextCounts) {
+        # if ($null -eq $CountHash) { continue }
+        foreach ($CKey in $CountHash.Keys) {
+            $SKey = [string]$CKey
+            if ($Result.ContainsKey($SKey)) {
+                $Result[$SKey] += $CountHash[$CKey]
+            }
+            else {
+                $Result[$SKey] = $CountHash[$CKey]
+            }
+        }
+    }
+
+    <#
+    $Timer1.Stop()
+    Write-Debug $Timer1.Elapsed
+    #>
+
+    return $Result
+
+    <#
+    .SYNOPSIS
+    Count the frequency of letters in texts using parallel computation.
+
+    .PARAMETER Texts
+    An array of strings.
+    #>
+}

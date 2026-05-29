@@ -1,0 +1,83 @@
+Function Get-LetterFrequencies() {
+    [CmdletBinding()]
+    Param(
+        [String[]]$Texts
+    )
+
+    # scriptblock to invoke in parallel:
+    #   independently produces a hash for one [string]$TextItem
+    $ConcurrentCounter = {
+        param($TextItem)
+        $ThisTextHash = @{}
+        $CPCapA = [int][Char]'A'
+        $CPCapZ = [int][Char]'Z'
+        $CPLowA = [int][Char]'a'
+        $CPLowZ = [int][Char]'z'
+        $CPA0 = [int][Char]"`u{00a0}"
+        $LowerShift = $CPLowA - $CPCapA
+        foreach ($Ch in [Char[]]$TextItem) {
+            $CodePoint = [int]$Ch
+            if ($CPCapA -le $CodePoint -and $CodePoint -le $CPCapZ) {
+                $CodePoint += $LowerShift
+                $Ch = [Char]$CodePoint
+            }
+            if (
+                ($CPLowA -le $CodePoint -and $CodePoint -le $CPLowZ) -or
+                ($CodePoint -gt $CPA0)
+            ) {
+                $Key = [String]$Ch
+                if ($ThisTextHash.ContainsKey($key)) {
+                    $ThisTextHash[$Key]++
+                }
+                else {
+                    $ThisTextHash[$Key] = 1
+                }
+            }
+        }
+        $ThisTextHash
+    }
+
+    # drive the concurrent counter using [runspacefactory]
+    $RSPool = [runspacefactory]::CreateRunspacePool()
+    $RSPool.Open()
+    $PoolJobs = [System.Collections.Generic.List[PSCustomObject]]::new()
+    foreach ($Text in $Texts) {
+        $P = [powershell]::Create()
+        $P.RunspacePool = $RSPool
+        $P.AddScript($ConcurrentCounter).AddArgument($Text) | Out-Null
+        # collect (in parallel) hashes for each string, using the scriptblock
+        $AsyncResult = $P.BeginInvoke()
+        $PoolJobs.Add([PSCustomObject]@{Instance = $P; AsyncResult = $AsyncResult})
+    }
+
+    $TextCounts = foreach ($Job in $PoolJobs) {
+        $Job.Instance.EndInvoke($Job.AsyncResult)
+        $Job.Instance.Dispose()
+    }
+    if ($RSPool -and $RSPool.RunSpacePoolStateInfo.State -ne 'Closed') {
+        ([Management.Automation.Runspaces.RunspacePool]$RSPool).Close()
+        ([Management.Automation.Runspaces.RunspacePool]$RSPool).Dispose()
+    }
+
+    # reduce the collection of hashes to one summative hash
+    $Result = @{}
+    foreach ($CountHash in $TextCounts) {
+        $CountHash.Keys | ForEach-Object {
+            if ($Result.ContainsKey($_)) {
+                $Result[$_] += $CountHash[$_]
+            }
+            else {
+                $Result[$_] = $CountHash[$_]
+            }
+        }
+    }
+    $Result
+
+    <#
+    .SYNOPSIS
+    Count the frequency of letters in texts using parallel computation.
+
+    .PARAMETER Texts
+    An array of strings.
+    #>
+}

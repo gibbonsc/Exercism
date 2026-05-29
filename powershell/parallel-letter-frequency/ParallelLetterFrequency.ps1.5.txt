@@ -1,0 +1,67 @@
+# Works on my laptop, does it work on Exercism submission server?
+Function Get-LetterFrequencies() {
+    [CmdletBinding()]
+    Param(
+        [String[]]$Texts
+    )
+
+    # scriptblock to invoke in parallel:
+    #   independently produces a hash for one [string]$_
+    $CountingThread = {
+        # param($ThisText)
+        $ThisTextHash = @{}
+        if ([string]::IsNullOrEmpty($_)) { return $ThisTextHash }
+        $Lowered = $_.ToLowerInvariant()
+        foreach ($Ch in $Lowered.ToCharArray()) {
+            $CodePoint = [int]$Ch
+            if (
+                (97 -le $CodePoint -and $CodePoint -le 122) -or
+                ($CodePoint -gt 0xA0)
+            ) {
+                $Key = [string]$Ch
+                if ($ThisTextHash.ContainsKey($Key)) {
+                    $ThisTextHash[$Key] = 1 + $ThisTextHash[$Key]
+                }
+                else {
+                    $ThisTextHash[$Key] = 1
+                }
+            }
+        }
+        $ThisTextHash
+    }
+
+    <# $Timer1 = [System.Diagnostics.Stopwatch]::StartNew() #>
+
+    # collect (in parallel) hashes for each string, using the scriptblock
+    $TextCounts = $Texts | ForEach-Object -Parallel $CountingThread
+
+    <# Write-Debug $Timer1.Elapsed #>
+
+    # reduce the collection of hashes to one summative hash
+    $Result = @{}
+    foreach ($CountHash in $TextCounts) {
+        $CountHash.Keys | ForEach-Object {
+            if ($Result.ContainsKey($_)) {
+                $Result[$_] += $CountHash[$_]
+            }
+            else {
+                $Result[$_] = $CountHash[$_]
+            }
+        }
+    }
+
+    <#
+    $Timer1.Stop()
+    Write-Debug $Timer1.Elapsed
+    #>
+
+    return $Result
+
+    <#
+    .SYNOPSIS
+    Count the frequency of letters in texts using parallel computation.
+
+    .PARAMETER Texts
+    An array of strings.
+    #>
+}

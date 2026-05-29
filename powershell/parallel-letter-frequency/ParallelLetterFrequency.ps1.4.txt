@@ -1,0 +1,69 @@
+# This works on my computer, but does it work on Exercism's submission server?
+Function Get-LetterFrequencies() {
+    [CmdletBinding()]
+    Param(
+        [String[]]$Texts
+    )
+
+    # scriptblock to invoke in parallel:
+    #   independently produces a hash for one [string]$_
+    $CountingThread = {
+        param($Item)
+        $ThisTextHash = @{}
+        $CPCapA = [int][Char]'A'
+        $CPCapZ = [int][Char]'Z'
+        $CPLowA = [int][Char]'a'
+        $CPLowZ = [int][Char]'z'
+        $CPA0 = [int][Char]"`u{00a0}"
+        $LowerShift = $CPLowA - $CPCapA
+        foreach ($Ch in [Char[]]$Item) {
+            $CodePoint = [int]$Ch
+            if ($CPCapA -le $CodePoint -and $CodePoint -le $CPCapZ) {
+                $CodePoint += $LowerShift
+                $Ch = [Char]$CodePoint
+            }
+            if (
+                ($CPLowA -le $CodePoint -and $CodePoint -le $CPLowZ) -or
+                ($CodePoint -gt $CPA0)
+            ) {
+                $Key = [String]$Ch
+                if ($ThisTextHash.ContainsKey($key)) {
+                    $ThisTextHash[$Key]++
+                }
+                else {
+                    $ThisTextHash[$Key] = 1
+                }
+            }
+        }
+        $ThisTextHash
+    }
+
+    # use Start-ThreadJob to collect hashes for each string
+    $ThreadJobs = $Texts | ForEach-Object {
+        Start-ThreadJob -ScriptBlock $CountingThread -ArgumentList $_
+    }
+    $TextCounts = $ThreadJobs | Receive-Job -Wait
+    $ThreadJobs | Remove-Job
+
+    # reduce the collection of hashes to one summative hash
+    $Result = @{}
+    foreach ($CountHash in $TextCounts) {
+        $CountHash.Keys | ForEach-Object {
+            if ($Result.ContainsKey($_)) {
+                $Result[$_] += $CountHash[$_]
+            }
+            else {
+                $Result[$_] = $CountHash[$_]
+            }
+        }
+    }
+    $Result
+
+    <#
+    .SYNOPSIS
+    Count the frequency of letters in texts using parallel computation.
+
+    .PARAMETER Texts
+    An array of strings.
+    #>
+}
