@@ -15,5 +15,6 @@
     },
     "FSharp.workspacePath": "fsharp",
     "FSharp.enableTreeView": true,
+    "powershell.cwd": "powershell",
   }
 }
