@@ -1,0 +1,148 @@
+Function Invoke-Transmitter() {
+    [CmdletBinding()]
+    Param(
+        [byte[]]$Sequence
+    )
+    $Result = @()
+    # initialize bit accumulator, parity accumulator, and bit shift counter
+    $A, $P, $Shifter = 0, 0, 7
+    for ($SeqIndex = 0; $SeqIndex -lt $Sequence.Count; $SeqIndex++) {
+        for ($BitIndex = 7; $BitIndex -ge 0; $BitIndex--) {
+            $Bit = ($Sequence[$SeqIndex] -shr $BitIndex) -band 1
+            $P = $P -bxor $Bit
+            $A = $A -bor $Bit -shl $Shifter--
+            if ($Shifter -eq 0) {
+                # append parity bit and place byte in transmit buffer
+                $Result += , ($A -bor $P)
+                # prepare for next byte
+                $A, $P, $Shifter = 0, 0, 7
+            }
+        }
+    }
+    if ($Result.Count -gt 0 -and $Shifter -lt 7) {
+        # place final leftover bits in transmit buffer
+        $Result += , ($A -bor $P)
+    }
+    return , $Result
+
+    <#
+    .SYNOPSIS
+    Implement the transmitter to calculates the transmission sequence.
+
+    .DESCRIPTION
+    Implement a function that accept a sequence and encode it with parity bits to help detecting transmission errors.
+
+    .PARAMETER Sequence
+    An array of hexadecimal values.
+
+    .EXAMPLE
+    Invoke-Transmitter -Sequence @(0x05)
+    Returns: @(0x05, 0x81)
+    #>
+}
+
+Function Invoke-Receiver() {
+    [CmdletBinding()]
+    Param(
+        [byte[]]$Sequence
+    )
+    $Result = @()
+    # initialize bit accumulator
+    $A = 0
+    for ($SeqIndex = 0; $SeqIndex -lt $Sequence.Count; $SeqIndex++) {
+        $Byte = $Sequence[$SeqIndex]
+        # parity check
+        $P = 0
+        for ($BitIndex = 7; $BitIndex -gt 0; $BitIndex--) {
+            $Bit = ($Byte -shr $BitIndex) -band 1
+            $P = $P -bxor $Bit
+        }
+        if ($P -ne ($Byte -band 1)) { throw "wrong parity" }
+        # process non-parity bits
+        $SpanCounter = $SeqIndex % 8
+        switch ($SpanCounter) {
+            0 {
+                # accumulate seven bits
+                $A = $Byte -band 0xFE
+                break
+            }
+            1 {
+                # accumulate one more bit
+                $A = $A -bor (($Byte -band 0x80) -shr 7)
+                # place eight bits in receive buffer
+                $Result += , $A
+                # accumulate next six bits
+                $A = ($Byte -band 0x7E) -shl 1
+                break
+            }
+            2 {
+                # accumulate two more bits
+                $A = $A -bor (($Byte -band 0xC0) -shr 6)
+                # place eight bits in receive buffer
+                $Result += , $A
+                # accumulate next five bits
+                $A = ($Byte -band 0x3E) -shl 2
+                break
+            }
+            3 {
+                # accumulate three more bits
+                $A = $A -bor (($Byte -band 0xE0) -shr 5)
+                # place eight bits in receive buffer
+                $Result += , $A
+                # accumulate next four bits
+                $A = ($Byte -band 0x1E) -shl 3
+                break
+            }
+            4 {
+                # accumualte four more bits
+                $A = $A -bor (($Byte -band 0xF0) -shr 4)
+                # place eight bits in receive buffer
+                $Result += , $A
+                # accumulate next three bits
+                $A = ($Byte -band 0x0E) -shl 4
+                break
+            }
+            5 {
+                # accumulate five more bits
+                $A = $A -bor (($Byte -band 0xF8) -shr 3)
+                # place eight bits in receive buffer
+                $Result += , $A
+                # accumulate two more bits
+                $A = ($Byte -band 0x06) -shl 5
+                break
+            }
+            6 {
+                # accumualte six more bits
+                $A = $A -bor (($Byte -band 0xFC) -shr 2)
+                # place eight bits in receive buffer
+                $Result += , $A
+                # accumulate next bit
+                $A = ($Byte -band 0x02) -shl 6
+            }
+            7 {
+                # accumulate seven more bits
+                $A = $A -bor (($Byte -band 0xFE) -shr 1)
+                # place eight bits in receive buffer
+                $Result += , $A
+                # clear accumulator; ready for next seven bits
+                $A = 0
+            }
+        }
+    }
+    return , $Result
+
+    <#
+    .SYNOPSIS
+    Implement the receiver to decode the transmission sequence.
+
+    .DESCRIPTION
+    Implement a function to receive a sequence and decode it to the original message.
+
+    .PARAMETER Sequence
+    An array of hexadecimal values.
+
+    .EXAMPLE
+    Invoke-Receiver -Sequence @(0x05, 0x81)
+    Returns: @(0x05)
+    #>
+}
