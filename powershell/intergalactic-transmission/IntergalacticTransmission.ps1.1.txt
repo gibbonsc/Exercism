@@ -52,9 +52,12 @@ Function Invoke-Receiver() {
     for ($SeqIndex = 0; $SeqIndex -lt $Sequence.Count; $SeqIndex++) {
         $Byte = $Sequence[$SeqIndex]
         # parity check
-        # - I just learned about the PopCount() method. It works great!
-        $P = [System.Numerics.BitOperations]::PopCount($Byte) % 2
-        if ($P -eq 1) { throw "wrong parity" }
+        $P = 0
+        for ($BitIndex = 7; $BitIndex -gt 0; $BitIndex--) {
+            $Bit = ($Byte -shr $BitIndex) -band 1
+            $P = $P -bxor $Bit
+        }
+        if ($P -ne ($Byte -band 1)) { throw "wrong parity" }
         # process non-parity bits
         $SpanCounter = $SeqIndex % 8
         switch ($SpanCounter) {
