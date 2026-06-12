@@ -6,6 +6,4 @@ let colors: string list = [
 ]
 
 let colorCode (color: string): int =
-    match List.tryFindIndex (fun x -> x = color) colors with
-    | Some i -> i
-    | None -> -1
+    List.findIndex ((=) color) colors
