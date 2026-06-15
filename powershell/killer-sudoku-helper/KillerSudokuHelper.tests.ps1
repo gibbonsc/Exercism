@@ -110,28 +110,34 @@ Describe "KillerSudokuHelper test cases" {
     It "Cage with eleven 4-combinations" {
         $got  = Invoke-KillerSudokuHelper -Sum 22 -Size 4 -Exclude @()
         $want = @(
-            (1, 4, 8, 9),
-            (1, 5, 7, 9),
-            (1, 6, 7, 8),
-            (2, 3, 8, 9),
-            (2, 4, 7, 9),
-            (2, 5, 6, 9),
-            (2, 5, 7, 8),
-            (3, 4, 6, 9),
-            (3, 4, 7, 8),
-            (3, 5, 6, 8),
-            (4, 5, 6, 7)
+            @(1, 4, 8, 9),
+            @(1, 5, 7, 9),
+            @(1, 6, 7, 8),
+            @(2, 3, 8, 9),
+            @(2, 4, 7, 9),
+            @(2, 5, 6, 9),
+            @(2, 5, 7, 8),
+            @(3, 4, 6, 9),
+            @(3, 4, 7, 8),
+            @(3, 5, 6, 8),
+            @(4, 5, 6, 7)
         )
         $got | Should -BeExactly $want
     }
     It "Cage with eleven 4-combinations that is restricted" {
         $got  = Invoke-KillerSudokuHelper -Sum 22 -Size 4 -Exclude @(1, 3)
         $want = @(
-            (2, 4, 7, 9),
-            (2, 5, 6, 9),
-            (2, 5, 7, 8),
-            (4, 5, 6, 7)
+            @(2, 4, 7, 9),
+            @(2, 5, 6, 9),
+            @(2, 5, 7, 8),
+            @(4, 5, 6, 7)
         )
+        $got | Should -BeExactly $want
+    }
+    It "Cage with sum of 10 and size of 3" {
+        $got  = Invoke-KillerSudokuHelper -Sum 10 -Size 3 -Exclude @()
+        $want = @( @(1,2,7), @(1,3,6), @(1,4,5), @(2,3,5) )
+
         $got | Should -BeExactly $want
     }
 }
