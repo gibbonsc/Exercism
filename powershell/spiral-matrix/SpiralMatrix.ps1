@@ -4,24 +4,25 @@ Function Get-SpiralMatrix() {
         [int]$Size
     )
     if ($Size -eq 0) { Return , @() }
-    $Compass = @( @(0, 1), @(1, 0), @(0, -1), @(-1, 0) )
+    $Compass = @( @(0, 1), @(1, 0), @(0, -1), @(-1, 0) )  # E, S, W, N
     $Grid = @()
     foreach ($Row in @(1..$Size)) {
-        $Grid += , @(1..$Size)
+        $Grid += , @(1..$Size)  # initialize rows with top row's values
     }
-    $Bear, $Step, $Row, $Col, $Span = 1, 0, 1, ($Size - 1), ($Size - 2)
-    $Val = $Size
-    while ($Val -lt $Size * $Size) {
+    $Row, $Col = 1, ($Size - 1)  # begin below top row
+    $Bear, $Step, $Span = 1, 0, ($Size - 2)  # begin bearing south
+    $Val = $Size  # begin with top row's last value
+    while ($Span -ge 0) {
         $Val++
-        $Grid[$Row][$Col] = $Val
-        if (++$Step -gt $Span) {
-            $Step = 0
-            $Bear = ($Bear + 1) % 4
-            if ($Bear%2 -eq 1) {
-                $Span--
+        $Grid[$Row][$Col] = $Val  # place a value
+        if (++$Step -gt $Span) {  # stepped far enough?
+            $Bear = ($Bear + 1) % 4  # turn, bearing right
+            $Step = 0  # begin counting a new span
+            if ($Bear%2 -eq 1) {  # vertical bearing?
+                $Span--  # shrink span
             }
         }
-        $Row += $Compass[$Bear][0]
+        $Row += $Compass[$Bear][0]  # step forward
         $Col += $Compass[$Bear][1]
     }
     Return @($Grid)
