@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./CryptoSquare.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'CryptoSquare.ps1')
 }
 
 Describe "CryptoSquare test cases" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\MatchingBrackets.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'MatchingBrackets.ps1')
 }
 
 Describe "Matching brackets test cases" {

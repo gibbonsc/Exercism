@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./SpiralMatrix.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'SpiralMatrix.ps1')
 }
 
 Describe "SpiralMatrix test cases" {

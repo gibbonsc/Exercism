@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./BottleSong.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'BottleSong.ps1')
 }
 
 Describe "BottleSong test cases" {

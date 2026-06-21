@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./IntergalacticTransmission.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'IntergalacticTransmission.ps1')
 }
 
 Describe "IntergalacticTransmission test cases" {

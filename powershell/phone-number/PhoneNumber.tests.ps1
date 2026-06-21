@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\PhoneNumber.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'PhoneNumber.ps1')
 }
 
 Describe "Phone Number Test Cases" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./ListOps.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'ListOps.ps1')
 }
 
 Describe "ListOps test cases" {

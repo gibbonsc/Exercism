@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./GameOfLife.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'GameOfLife.ps1')
 }
 
 Describe "GameOfLife test cases" {

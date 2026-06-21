@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Allergies.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Allergies.ps1')
 }
 
 Describe "Allergy test cases" {

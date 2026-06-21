@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./EliudsEggs.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'EliudsEggs.ps1')
 }
 
 Describe "PopCount test cases" {

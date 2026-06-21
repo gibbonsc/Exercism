@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./FoodChain.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'FoodChain.ps1')
 }
 Describe "FoodChain test cases" {
     It "fly" {

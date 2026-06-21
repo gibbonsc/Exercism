@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./CustomSet.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'CustomSet.ps1')
 }
 
 Describe "custom set test cases" {

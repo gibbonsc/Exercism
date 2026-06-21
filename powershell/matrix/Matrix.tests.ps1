@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\Matrix.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Matrix.ps1')
 }
 
 Describe "Matrix Tests" {

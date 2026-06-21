@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./SaddlePoints.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'SaddlePoints.ps1')
 }
 
 Describe "SaddlePoints test cases" {

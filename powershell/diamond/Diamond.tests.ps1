@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Diamond.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Diamond.ps1')
 }
 
 Describe "Diamond test cases" {

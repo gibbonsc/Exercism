@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./FlowerField.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'FlowerField.ps1')
 }
 
 Describe "Flower Field test cases" {

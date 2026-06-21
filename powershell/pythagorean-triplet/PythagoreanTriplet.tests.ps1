@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./PythagoreanTriplet.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'PythagoreanTriplet.ps1')
 }
 
 Describe "PythagoreanTriplet test cases" {

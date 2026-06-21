@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./KillerSudokuHelper.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'KillerSudokuHelper.ps1')
 }
 
 Describe "KillerSudokuHelper test cases" {

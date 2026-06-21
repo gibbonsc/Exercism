@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./RestApi.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'RestApi.ps1')
 
     Function Test-ApiResult([object]$got, [object]$want, [string]$path = "expected") {
         <#

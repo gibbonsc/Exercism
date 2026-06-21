@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\Luhn.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Luhn.ps1')
 }
 
 Describe "LuhnTests" {

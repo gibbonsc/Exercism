@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Wordy.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Wordy.ps1')
 }
 
 Describe "Wordy test cases" {

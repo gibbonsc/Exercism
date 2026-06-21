@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./LineUp.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'LineUp.ps1')
 }
 
 Describe "LineUp test cases" {

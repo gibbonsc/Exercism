@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./ErrorHandling.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'ErrorHandling.ps1')
 }
 
 Describe "ErrorHandling test cases" {

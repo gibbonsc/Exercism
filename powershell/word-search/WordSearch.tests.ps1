@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./WordSearch.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'WordSearch.ps1')
 }
 
 Describe "WordSearch test cases" {

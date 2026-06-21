@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\AllYourBase.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'AllYourBase.ps1')
 }
 
 Describe "All your base test cases" {

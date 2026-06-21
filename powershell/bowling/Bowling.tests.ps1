@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Bowling.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Bowling.ps1')
     
     #utility function to start game
     Function Start-Bowling([int[]]$rolls) {

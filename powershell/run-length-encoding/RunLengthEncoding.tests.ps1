@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./RunLengthEncoding.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'RunLengthEncoding.ps1')
 }
 
 Describe "RunLengthEncoding test cases" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./RationalNumbers.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'RationalNumbers.ps1')
 }
 
 Describe "RationalNumbers test cases" {

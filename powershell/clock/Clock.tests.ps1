@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Clock.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Clock.ps1')
 }
 
 Describe "Clock test cases" {

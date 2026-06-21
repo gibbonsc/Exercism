@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Sieve.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Sieve.ps1')
 }
 
 Describe "Sieve test cases" {

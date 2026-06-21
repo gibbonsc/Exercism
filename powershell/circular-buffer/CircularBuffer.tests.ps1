@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./CircularBuffer.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'CircularBuffer.ps1')
 }
 
 Describe "CircularBuffer test cases" {

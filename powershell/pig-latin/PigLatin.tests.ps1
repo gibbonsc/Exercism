@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./PigLatin.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'PigLatin.ps1')
 }
 
 Describe "PigLatin test cases" {

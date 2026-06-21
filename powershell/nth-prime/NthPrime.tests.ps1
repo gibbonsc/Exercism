@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\NthPrime.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'NthPrime.ps1')
 }
 
 Describe "NthPrime Tests" {

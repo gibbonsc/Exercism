@@ -1,5 +1,5 @@
 BeforeAll {
-    . ".\RomanNumerals.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'RomanNumerals.ps1')
 }
 Describe "Roman Numerals Test Cases" {
     Context "Passing Tests" {

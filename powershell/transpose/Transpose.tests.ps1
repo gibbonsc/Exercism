@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Transpose.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Transpose.ps1')
 }
 Describe "Transpose test cases" {
     It "empty string" {

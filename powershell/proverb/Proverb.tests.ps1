@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./Proverb.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'Proverb.ps1')
 }
 
 Describe "Test Get-Proverb" {

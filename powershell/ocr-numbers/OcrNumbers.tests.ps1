@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./OcrNumbers.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'OcrNumbers.ps1')
 }
 
 Describe "OcrNumbers test cases" {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./ParallelLetterFrequency.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'ParallelLetterFrequency.ps1')
 
     #utility function
     function Test-HashtableEquality($got, $want) {

@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./LinkedList.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'LinkedList.ps1')
 }
 
 Describe "LinkedList test cases" {

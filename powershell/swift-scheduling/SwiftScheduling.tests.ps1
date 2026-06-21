@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./SwiftScheduling.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'SwiftScheduling.ps1')
 }
 
 Describe "SwiftScheduling test cases" {

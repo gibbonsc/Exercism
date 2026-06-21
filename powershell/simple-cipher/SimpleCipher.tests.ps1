@@ -1,5 +1,5 @@
 BeforeAll {
-    . "./SimpleCipher.ps1"
+. (Join-Path -Path $PSScriptRoot -ChildPath 'SimpleCipher.ps1')
 }
 
 Describe "SimpleCipher test cases" {
