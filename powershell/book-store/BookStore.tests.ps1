@@ -148,4 +148,25 @@ Describe "BookStore test cases" {
         { Get-Total -Books @(0, 1, 2, 3, 4, 5, 6) } | Should -Throw "*Cannot validate argument on parameter 'Books'*"
     }
 
+    # Custom tests (mine, not Exercism's)
+    It "Two of four and one of three" {
+        $got  = Get-Total -Books @(1,1,1,2,3,3,3,4,5,5,5)
+        $want = 72.8
+        $got | Should -BeLike $want
+    }
+    It "a certain twelve book purchase" {
+        $got  = Get-Total -Books @(1,1,1,2,2,2,3,3,3,4,4,5)
+        $want = 76.8
+        $got | Should -BeLike $want
+    }
+    It "a certain sixteen book purchase" {
+        $got  = Get-Total -Books @(1,1,1,2,2,2,3,3,3,3,4,4,4,5,5,5)
+        $want = 98
+        $got | Should -BeLike $want
+    }
+    It "a certain twenty book purchase" {
+        $got  = Get-Total -Books @(1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5)
+        $want = 128
+        $got | Should -BeLike $want
+    }
 }
