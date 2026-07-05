@@ -1,0 +1,85 @@
+Function Invoke-BafflingBirthdays {
+    [CmdletBinding()]
+    Param(
+        [int]$People
+    )
+    # compute probability directly using multiplication principle:
+    # initialize "distinct birthday probability," $dbp
+    $dbp = 1.0
+    # each additional person in the group reduces $dbp by a ratio
+    #   of one fewer days per 365 days
+    for ($p = 1; $p -lt $People; $p++) {
+        $dbp *= (365.0 - $p)/365.0
+    }
+    # subtract from 100% to find "matching birthday probability"
+    return (1.0 - $dbp) * 100.0
+    <#
+    .SYNOPSIS
+    Estimate the birthday paradox's probabilities.
+
+    .DESCRIPTION
+    To solve the birthday paradox exercise you need to do these steps:
+    - Generate random birthdates.
+    - Check if a collection of randomly generated birthdates contains at least two with the same birthday.
+    - Estimate the probability that at least two people in a group share the same birthday for different group sizes.
+
+    .PARAMETER People
+    Number of people in the group.
+
+    .NOTES
+    Consider doing 5000 runs of the test for optimal result for 2% tolerance.
+    #>
+}
+
+Function Get-RandomBirthdates {
+    [CmdletBinding()]
+    Param(
+        [int]$People
+    )
+    do {
+        $randomYear = 1..9999 | Get-Random
+    } while ([DateTime]::IsLeapYear($randomYear))
+    $Result = (1..$People) | ForEach-Object {
+        $randomMonth = 1..12 | Get-Random
+        $randomDay = 1..(
+            [DateTime]::DaysInMonth($randomYear,$randomMonth)
+        ) | Get-Random
+        [DateTime]::New($randomYear, $randomMonth, $randomDay)
+    }
+    return $Result
+    <#
+    .SYNOPSIS
+    Generate a collection of birthdates based on a number of people.
+
+    .PARAMETER People
+    Number of birthdates to be generated.
+    #>
+}
+
+Function Test-SharedBirthday {
+    [CmdletBinding()]
+    Param(
+        [DateTime[]]$Birthdates
+    )
+    $N = $Birthdates.Count
+    if ($N -lt 2) { return $false }
+    for ($i = 0; $i -lt $N - 1; $i++) {
+        $Mi = $Birthdates[$i].Month
+        $Di = $Birthdates[$i].Day
+        for ($j = $i+1; $j -lt $N; $j++) {
+            $Mj = $Birthdates[$j].Month
+            $Dj = $Birthdates[$j].Day
+            if ($Mj -eq $Mi -and $Dj -eq $Di) {
+                return $true
+            }
+        }
+    }
+    return $false
+    <#
+    .SYNOPSIS
+    Check if there is a shared birthday in a list of random birthdates.
+
+    .PARAMETER Birthdates
+    A collection of random Datetime objects represents.
+    #>
+}
