@@ -1,0 +1,160 @@
+enum HandRank {
+    HighCard
+    Pair
+    TwoPair
+    ThreeOfAKind
+    Straight
+    Flush
+    FullHouse
+    FourOfAKind
+    StraightFlush
+}
+enum CardRank {
+    P2 = 2
+    P3 = 3
+    P4 = 4
+    P5 = 5
+    P6 = 6
+    P7 = 7
+    P8 = 8
+    P9 = 9
+    P10 = 10
+    PJ = 11
+    PQ = 12
+    PK = 13
+    PA = 14
+}
+
+Function Get-Card {
+    [CmdletBinding()]
+    Param([string[]]$Card)
+    $TenCheck = $Card.Substring(0, 2)
+    $Rank, $Suit = ($TenCheck -eq "10") ?
+    ([CardRank]::P10, $Card.Substring(2, 1)) :
+    ([CardRank]::('P' + $Card.Substring(0, 1)), $Card.Substring(1, 1))
+    return @($Rank, $Suit)
+}
+
+Function Get-HandRank {
+    [CmdletBinding()]
+    Param([string[]]$Cards)
+    $CardRanks = @{}
+    $CardSuits = @{}
+    for ($i = 0; $i -lt 5; $i++) {
+        $R, $S = Get-Card $Cards[$i]
+        $CardRanks[$R]++
+        $CardSuits[$S]++
+    }
+    $SortedRanks = [int[]]$CardRanks.Keys | Sort-Object
+    $Diffs = @()
+    for ($i = 0; $i -lt $SortedRanks.Count - 1; $i++) {
+        $Diffs += , $SortedRanks[$i+1] - $SortedRanks[$i]
+    }
+    $Straight = $Diffs.Count -eq 4 -and
+        $Diffs[0] -eq 1 -and
+        $Diffs[1] -eq 1 -and
+        $Diffs[2] -eq 1 -and
+        ($Diffs[3] -eq 1 -or $Diffs[3] -eq 9)
+    $Flush = $CardSuits.Count -eq 1
+    if ($Straight -and $Flush) {
+        return [HandRank]::StraightFlush
+    }
+    elseif ($SortedRanks[1] -eq $SortedRanks[2] -and
+        $SortedRanks[2] -eq $SortedRanks[3] -and
+        ($SortedRanks[0] -eq $SortedRanks[1] -or
+            $SortedRanks[3] -eq $SortedRanks[4])
+    ) {
+        return [HandRank]::FourOfAKind
+    }
+    elseif ($SortedRanks[0] -eq $SortedRanks[1] -and
+        $SortedRanks[3] -eq $SortedRanks[4] -and
+        ($SortedRanks[1] -eq $SortedRanks[2] -or
+            $SortedRanks[2] -eq $SortedRanks[3])
+    ) {
+        return [HandRank]::FullHouse
+    }
+    elseif ($Flush) { return [HandRank]::Flush }0
+    elseif ($Straight) { return [HandRank]::Straight }
+    elseif (($SortedRanks[0] -eq $SortedRanks[1] -and
+        $SortedRanks[1] -eq $SortedRanks[2]) -or
+        $SortedRanks[2] -eq $SortedRanks[3] -and
+        ($SortedRanks[1] -eq $SortedRanks[2] -or
+            $SortedRanks[3] -eq $SortedRanks[4]) 
+    ) {
+        return [HandRank]::ThreeOfAKind
+    }
+    elseif (
+        ($SortedRanks[0] -eq $SortedRanks[1] -and
+        ($SortedRanks[2] -eq $SortedRanks[3] -or
+        $SortedRanks[3] -eq $SortedRanks[4])) -or
+        ($SortedRanks[1] -eq $SortedRanks[2] -and
+        $SortedRanks[3] -eq $SortedRanks[4])
+    ) {
+        return [HandRank]::TwoPair
+    }
+    elseif ($SortedRanks[0] -eq $SortedRanks[1] -or
+        $SortedRanks[1] -eq $SortedRanks[2] -or
+        $SortedRanks[2] -eq $SortedRanks[3] -or
+        $SortedRanks[3] -eq $SortedRansk[4]
+    ) {
+        return [HandRank]::Pair
+    }
+    else {
+        return [HandRank]::HighCard
+    }
+}
+
+Function Get-ParsedHand {
+    [CmdletBinding()]
+    Param([string]$Hand)
+    $ParsedHand = @()
+    $Cards = $Hand -split " "
+    foreach ($C in $Cards) {
+        $CardRank, $CardSuit = Get-Card $C
+        $ParsedHand += @{Rank = $CardRank; Suit = $CardSuit }
+    }
+    $HandRank = Get-HandRank $Cards
+    $ParsedHand = @{
+        HandRank = $HandRank
+        Cards = $ParsedHand | Sort-Object -Descending -Property Rank
+    }
+    return $ParsedHand
+}
+
+Function Get-BestHand() {
+    [CmdletBinding()]
+    Param(
+        [string[]]$Hands
+    )
+    # parse each hand
+    $ParsedHands = @()
+    foreach ($H in $Hands) {
+        $ParsedHand = @()
+        $Cards = $H -split " "
+        foreach ($C in $Cards) {
+            $CardRank, $CardSuit = Get-Card $C
+            $ParsedHand += @{Rank = $CardRank; $Suit = $CardSuit }
+        }
+        $HandRank = Get-HandRank $Cards
+        $ParsedHands += @{
+            HandRank = $HandRank
+            Cards    = $ParsedHand
+        }
+    }
+    return $ParsedHands
+
+    <#
+    .SYNOPSIS
+    Pick the best hand(s) from a list of poker hands.
+
+    .DESCRIPTION
+    Given an array of poke hands, pick out the best (highest value) hand(s) and return them in an array.
+
+    .PARAMETER Hands
+    An array of string(s), each representing a poker hand.
+
+    .EXAMPLE
+    Get-BestHand -Hands @("AS QS KS 10S JS", "JS AH QD 10S KC")
+    Return: @("AS QS KS 10S JS")
+    #>
+}
