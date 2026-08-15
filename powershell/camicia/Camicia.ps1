@@ -1,5 +1,5 @@
 using namespace System.Collections.Generic
-using namespace System.Text
+# using namespace System.Text
 
 enum Status {
     Finished
@@ -26,25 +26,13 @@ class Camicia {
     [string] GetDeckState() {  # helper to check for loop state
         $Sig1 = ''
         $Sig2 = ''
-        if ($this.Aturn) {
-            foreach ($Card in $this.ADeck) {
-                $Sig1 += ($Card -in @('J','Q','K','A')) ?
-                    $Card : "-"
-            }
-            foreach ($Card in $this.BDeck) {
-                $Sig2 += ($Card -in @('J','Q','K','A')) ?
-                    $Card : "-"
-            }
+        foreach ($Card in $this.ADeck) {
+            $Sig1 += ($Card -in @('J','Q','K','A')) ?
+                $Card : "#"
         }
-        else {
-            foreach ($Card in $this.BDeck) {
-                $Sig1 += ($Card -in @('J','Q','K','A')) ?
-                    $Card : "-"
-            }
-            foreach ($Card in $this.ADeck) {
-                $Sig2 += ($Card -in @('J','Q','K','A')) ?
-                    $Card : "-"
-            }
+        foreach ($Card in $this.BDeck) {
+            $Sig2 += ($Card -in @('J','Q','K','A')) ?
+                $Card : "#"
         }
         return $Sig1 + "," + $Sig2
     }
@@ -125,23 +113,16 @@ class Camicia {
         $BPlayedInRound = $false
         $Loop = $false
         while ($true) {
-            if ($APlayedInRound -and $BPlayedInRound) {
-                # new round, check deck signature
-                $RoundSig = $this.GetDeckState()
-                if ($this.Sigs.Contains($RoundSig)) {
-                    $Loop = $true
-                    break
-                }
-                else {
-                    $this.Sigs.Add($RoundSig)
-                    $APlayedInRound = $false
-                    $BPlayedInRound = $false
-                }
+
+            $P = $this.PlayOneCard()  # play
+            if ($this.ATurn) {  # 
+                $APlayedInRound = $true
+            }
+            else {
+                $BPlayedInRound = $true
             }
 
-            # play
-            $P = $this.PlayOneCard()
-            if ($P -eq -1) {  # no cards to play; game over
+                if ($P -eq -1) {  # no cards to play; game over
                 if ($this.Pile.Count -gt 0) {
                     $this.CollectPile()
                 }
@@ -156,8 +137,6 @@ class Camicia {
                 else {
                     --$this.Penalty  # update penalty counter
                     if ($this.Penalty -eq 0) {  # penalty paid in full
-                        $APlayedInRound = $false
-                        $BPlayedInRound = $false
                         $this.CollectPile()
                         $this.SwapTurn()
                         # check whether full payment ends game
@@ -172,19 +151,30 @@ class Camicia {
                             }
                         }
                     }
+                    else {  # penalty not yet played in full; play again
+                        continue
+                    }
                 }
             }
             else {  # regular play; not playing penalty
                 $this.Penalty = $P
-                if ($this.ATurn) {
-                    $APlayedInRound = $true
-                }
-                else {
-                    $BPlayedInRound = $true
-                }
                 $this.SwapTurn()
             }
 
+            if ($this.Penalty -eq 0 -and
+                $APlayedInRound -and $BPlayedInRound
+                ) {  # new round, check deck signature
+                $RoundSig = $this.GetDeckState()
+                if ($this.Sigs.Contains($RoundSig)) {
+                    $Loop = $true
+                    break
+                }
+                else {
+                    $this.Sigs.Add($RoundSig)
+                    $APlayedInRound = $false
+                    $BPlayedInRound = $false
+                }
+            }
         }
 
         $Result = [CamiciaResult]::new()
