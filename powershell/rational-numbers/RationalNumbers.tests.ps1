@@ -322,4 +322,31 @@ Describe "RationalNumbers test cases" {
             $got | Should -BeExactly $want
         }
     }
+
+    Context "Order Comparisons (op_LessThan)" {
+        It "sixty percent less than two thirds" {
+            $got  = [Rational]::new(3, 5) -lt [Rational]::new(2, 3)
+            $got | Should -BeExactly $true
+        }
+
+        It "PI approximations: 22/7 is not less than 179/57" {
+            $got  = [Rational]::new(22, 7) -lt [Rational]::new(179, 57)
+            $got | Should -BeExactly $false
+        }
+
+        It "PI approximations: 355/113 is not less than 52163/16604" {
+            $got  = [Rational]::new(355, 113) -lt [Rational]::new(52163, 16604)
+            $got | Should -BeExactly $false
+        }
+
+        It "PI approximations: 52163/16604 is less than 52518/16717" {
+            $got  = [Rational]::new(52163, 16604) -lt [Rational]::new(52518, 16717)
+            $got | Should -BeExactly $true
+        }
+
+        It "0.4999 is less than 0.5001" {
+            $got  = [Rational]::new(4999, 10000) -lt [Rational]::new(5001, 10000)
+            $got | Should -BeExactly $true
+        }
+    }
 }
